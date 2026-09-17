@@ -22,7 +22,17 @@
                 <a href="{% url 'bikes' %}" {% if current == 'bikes' or current == 'bike-detail' or current == 'bike-create' or current == 'bike-update' %}class="active" aria-current="{% if current == 'bikes' %}page{% else %}true{% endif %}"{% endif %}>Rowery</a>
                 {% endwith %}
             </nav>
-            <span class="header-note"><span class="status-dot"></span> Dwa koła. Wiele możliwości.</span>
+            <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Dwa koła. Wiele możliwości.</span>
+            <div class="header-account">
+                {% if request.user.is_authenticated %}
+                <a class="account-link" href="{% url 'custom_user_detail' request.user.pk %}" aria-label="Przejdź do profilu: {{ request.user.username }}">
+                    <svg class="account-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.5"/><path d="M5 20v-1a7 7 0 0 1 14 0v1"/></svg>
+                    <span class="header-username">{{ request.user.username }}</span>
+                </a>
+                {% else %}
+                <a class="account-link" href="{% url 'login' %}" {% if request.resolver_match.url_name == 'login' %}aria-current="page"{% endif %}>Zaloguj się</a>
+                {% endif %}
+            </div>
         </div>
     </header>
     <main id="main" class="container" tabindex="-1">
