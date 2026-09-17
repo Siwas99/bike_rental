@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{% if object %}Edytuj rower{% else %}Dodaj rower{% endif %}{% endblock %}
+{% block content %}
+{% if object %}{% url 'bike-detail' object.pk as cancel_url %}{% else %}{% url 'bikes' as cancel_url %}{% endif %}
+<a class="back-link" href="{{ cancel_url }}"><span aria-hidden="true">←</span> {% if object %}Szczegóły roweru{% else %}Wszystkie rowery{% endif %}</a>
+<section class="page-heading">
+    <div><p class="eyebrow">Flota / {% if object %}Edycja #{{ object.pk }}{% else %}Nowy rower{% endif %}</p><h1>{% if object %}Edytuj rower{% else %}Dodaj rower{% endif %}<span class="accent">.</span></h1><p class="intro">{% if object %}Zaktualizuj dane roweru {{ object.name }}.{% else %}Rozbuduj flotę. Uzupełnij dane roweru i ustal cenę za dobę.{% endif %}</p></div>
+</section>
+<div class="form-layout">
+    <section class="panel" aria-labelledby="form-title">
+        <div class="panel-heading"><h2 id="form-title">Dane roweru</h2><span class="muted">* Pola wymagane</span></div>
+        <form method="post" class="record-form" novalidate>
+            {% csrf_token %}
+            {% include 'includes/form_fields.html' %}
+            <div class="form-actions"><button class="button button-dark" type="submit">{% if object %}Zapisz zmiany{% else %}Dodaj rower{% endif %} <span aria-hidden="true">→</span></button><a class="button button-outline" href="{{ cancel_url }}">Anuluj</a></div>
+        </form>
+    </section>
+    <aside class="form-aside"><span class="form-icon" aria-hidden="true">{% include 'includes/bike_icon.html' %}</span><p class="eyebrow">Gotowy na kolejną trasę</p><h2>Porządek we flocie</h2><p>Numer seryjny pomaga rozpoznać konkretny egzemplarz. Cenę podaj w złotych za jedną dobę wypożyczenia.</p><p>Po zapisaniu przejdziesz do szczegółów roweru.</p></aside>
+</div>
+{% endblock %}

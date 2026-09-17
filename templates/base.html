@@ -1,0 +1,33 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>{% block title %}Panel wypożyczalni{% endblock %} · Bike Rental</title>
+    <link rel="stylesheet" href="{% static 'rentals/css/main.css' %}">
+</head>
+<body>
+    <a class="skip-link" href="#main">Przejdź do treści</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="{% url 'rentals' %}" aria-label="Bike Rental — wypożyczenia">
+                <span class="brand-mark" aria-hidden="true">{% include 'includes/bike_icon.html' %}</span>
+                <span>bike<span class="brand-light">rental</span><small>Panel wypożyczalni</small></span>
+            </a>
+            <nav aria-label="Nawigacja główna">
+                {% with current=request.resolver_match.url_name %}
+                <a href="{% url 'rentals' %}" {% if current == 'rentals' or current == 'rental-detail' or current == 'rental-create' or current == 'rental-update' %}class="active" aria-current="{% if current == 'rentals' %}page{% else %}true{% endif %}"{% endif %}>Wypożyczenia</a>
+                <a href="{% url 'bikes' %}" {% if current == 'bikes' or current == 'bike-detail' or current == 'bike-create' or current == 'bike-update' %}class="active" aria-current="{% if current == 'bikes' %}page{% else %}true{% endif %}"{% endif %}>Rowery</a>
+                {% endwith %}
+            </nav>
+            <span class="header-note"><span class="status-dot"></span> Dwa koła. Wiele możliwości.</span>
+        </div>
+    </header>
+    <main id="main" class="container" tabindex="-1">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer container"><span>Bike Rental</span><span>Wszystko, czego potrzebujesz do kolejnej trasy.</span></footer>
+</body>
+</html>
