@@ -23,12 +23,16 @@ class BikeForm(forms.ModelForm):
 class RentalForm(forms.ModelForm):
     class Meta:
         model = Rental
-        fields = ['bike', 'user', 'rental_date', 'return_date']
+        fields = ['bike', 'user', 'rental_date', 'planned_return_date', 'return_date']
         labels = {'bike': 'Rower', 'user': 'Użytkownik',
-                  'rental_date': 'Data wypożyczenia', 'return_date': 'Data zwrotu'}
+                  'rental_date': 'Data wypożyczenia',
+                  'planned_return_date': 'Planowane data wypożyczenia',
+                  'return_date': 'Data zwrotu'
+                  }
         help_texts = {'return_date': 'Pozostaw puste, jeśli rower jest jeszcze w trasie.'}
         widgets = {
             'rental_date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+            'planned_return_date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
             'return_date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
         }
 

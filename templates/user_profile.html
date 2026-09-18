@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Profil{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <section class="page-heading">
+            <div>
+                <p class="eyebrow">Profil użytkownika</p>
+                <h1>{{ username }}
+                    <span class="accent">.</span>
+                </h1>
+                <p class="intro">Każda trasa ma swój początek. Tutaj znajdziesz historię swoich wypożyczeń.</p>
+            </div>
+            <a class="button button-dark" href="{% url 'rental-create' %}">Nowe wypożyczenie <span
+                    aria-hidden="true">+</span></a>
+        </section>
+        <section class="panel" aria-labelledby="rental-list-title">
+            <div class="panel-heading">
+                <div class="section-title"><h2 id="rental-list-title">Wszystkie wypożyczenia</h2><span
+                        class="count">{{ rentals|length }}</span></div>
+                <span class="muted">Od najnowszych</span></div>
+            {% if rentals %}
+                <div class="table-scroll" role="region"
+                     aria-label="Tabela wypożyczeń — przewiń w poziomie na małym ekranie"
+                     tabindex="0">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th scope="col">Rower</th>
+                            <th scope="col">Użytkownik</th>
+                            <th scope="col">Data wypożyczenia</th>
+                            <th scope="col">Data zwrotu</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Koszt</th>
+                            <th scope="col"><span class="sr-only">Szczegóły</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>{% for rental in rentals %}
+                            <tr>
+                                <td><a class="item-title"
+                                       href="{% url 'bike-detail' rental.bike.pk %}">{{ rental.bike.name }}</a><span
+                                        class="cell-caption">{{ rental.bike.manufacturer }} · #{{ rental.pk }}</span>
+                                </td>
+                                <td>{{ rental.user.get_full_name|default:rental.user.username }}</td>
+                                <td class="nowrap">{{ rental.rental_date|date:'d.m.Y' }}</td>
+                                <td class="nowrap">
+                                    {% if rental.return_date %}{{ rental.return_date|date:'d.m.Y' }}{% else %}
+                                        <span class="muted">Jeszcze nie zwrócono</span>{% endif %}</td>
+                                <td>{% include 'includes/rental_status.html' %}</td>
+                                <td class="nowrap">{{ rental.cost }}</td>
+                                <td><a class="text-link nowrap" href="{% url 'rental-detail' rental.pk %}">Szczegóły
+                                    <span
+                                            aria-hidden="true">↗</span><span
+                                            class="sr-only"> wypożyczenia #{{ rental.pk }}</span></a></td>
+                            </tr>{% endfor %}</tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state"><span class="empty-icon">{% include 'includes/bike_icon.html' %}</span>
+                    <h3>Pierwsza trasa jeszcze przed nami</h3>
+                    <p>Nie ma jeszcze żadnych wypożyczeń. Gdy się pojawią, zobaczysz je tutaj.</p><a
+                            class="button button-dark" href="{% url 'bikes' %}">Zobacz rowery <span
+                            aria-hidden="true">↗</span></a></div>
+            {% endif %}
+        </section>
+        <div style="margin-top: 2rem; display: flex; justify-content: space-between;">
+            <a class="button button-outline" href="{% url 'custom_user_update_profile' %}">Aktualizuj profil</a>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="button button-dark" type="submit">Wyloguj się</button>
+            </form>
+        </div>
+    {% else %}
+        <a href="{% url 'login' %}">Zaloguj się</a>
+    {% endif %}
+{% endblock %}

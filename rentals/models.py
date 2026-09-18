@@ -23,5 +23,13 @@ class Rental(models.Model):
     return_date = models.DateField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    @property
+    def cost(self):
+        if self.return_date:
+            rental_duration = self.return_date - self.rental_date
+            return rental_duration.days * self.bike.price_per_day
+        else:
+            return '-'
+
     def __str__(self):
         return f"{self.bike.name} rented by {self.user.username}"
