@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AdminUserCreationForm
+from django.db import transaction
 
-from accounts.models import CustomUser
+from accounts.models import CustomUser, Address
 from django.utils.timezone import localdate
 
 
@@ -51,8 +52,72 @@ class CustomUserCreateForm(CustomUserValidationMixin, UserCreationForm):
             ),
         }
 
+    @transaction.atomic
+    def save(self, commit = True):
+        user = super().save(commit=False)
+        user.phone_number = self.cleaned_data['phone_number']
+        user.birth_date = self.cleaned_data['birth_date']
+
+        if commit:
+            user.save()
+
+            Address.objects.create(
+                user=user,
+                address_line1=self.cleaned_data["address_line1"],
+                address_line2=self.cleaned_data["address_line2"],
+                postal_code=self.cleaned_data["postal_code"],
+                city=self.cleaned_data["city"],
+                country=self.cleaned_data["country"],
+            )
+
+        return user
+
+
 class CustomUserUpdateForm(CustomUserValidationMixin, forms.ModelForm):
     email = forms.EmailField(required=True, label="Adres email")
+
+    address_line1 = forms.CharField(max_length=100, required=False)
+    address_line2 = forms.CharField(max_length=100, required=False)
+    postal_code = forms.CharField(max_length=10, required=False)
+    city = forms.CharField(max_length=100, required=False)
+    country = forms.CharField(max_length=100, required=False)
+    region = forms.CharField(max_length=100, required=False)
+
+    ADDRESS_FIELDS = (
+        "address_line1",
+        "address_line2",
+        "postal_code",
+        "city",
+        "country",
+        "region",
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if(self.instance.pk):
+            address = Address.objects.filter(user=self.instance).first()
+            print(address)
+            if address:
+                for field in self.ADDRESS_FIELDS:
+                    self.initial.setdefault(field, getattr(address, field))
+
+    @transaction.atomic
+    def save(self, commit = True):
+        user = super().save(commit = False)
+
+        if commit:
+            user.save()
+
+            Address.objects.update_or_create(
+                user=user,
+                defaults={
+                    field: self.cleaned_data[field]
+                    for field in self.ADDRESS_FIELDS
+                },
+            )
+
+        return user
 
     class Meta:
         model = CustomUser
