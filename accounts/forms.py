@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AdminUserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AdminUserCreationForm, UserChangeForm
+from django.contrib.auth.models import Group
 from django.db import transaction
 
 from accounts.models import CustomUser, Address
@@ -27,22 +28,22 @@ class CustomUserValidationMixin:
         return birth_date
 
 class CustomUserCreateForm(CustomUserValidationMixin, UserCreationForm):
-    email = forms.EmailField(required=True, label="Adres email")
+    email = forms.EmailField(required=True, label="Email address")
 
     address_line1 = forms.CharField(max_length=100)
     address_line2 = forms.CharField(max_length=100)
     postal_code = forms.CharField(max_length=100)
     city = forms.CharField(max_length=100)
-    country = forms.CharField(max_length=100, initial="Polska")
+    country = forms.CharField(max_length=100, initial="Poland")
     region = forms.CharField(max_length=100)
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = UserCreationForm.Meta.fields + ("email","phone_number", "birth_date")
         labels = {
-            'username': 'Nazwa użytkownika',
-            'phone_number': 'Numer telefonu',
-            'birth_date': 'Data urodzenia',
+            'username': 'Username',
+            'phone_number': 'Phone number',
+            'birth_date': 'Date of birth',
         }
         widgets = {
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
@@ -60,6 +61,11 @@ class CustomUserCreateForm(CustomUserValidationMixin, UserCreationForm):
 
         if commit:
             user.save()
+            self.save_m2m()
+
+            if "groups" not in self.fields:
+                customer_group = Group.objects.get(name="customer")
+                user.groups.add(customer_group)
 
             Address.objects.create(
                 user=user,
@@ -72,9 +78,12 @@ class CustomUserCreateForm(CustomUserValidationMixin, UserCreationForm):
 
         return user
 
+class ManagerUserCreateForm(CustomUserCreateForm):
+    class Meta(CustomUserCreateForm.Meta):
+        fields = CustomUserCreateForm.Meta.fields + ("groups",)
 
 class CustomUserUpdateForm(CustomUserValidationMixin, forms.ModelForm):
-    email = forms.EmailField(required=True, label="Adres email")
+    email = forms.EmailField(required=True, label="Email address")
 
     address_line1 = forms.CharField(max_length=100, required=False)
     address_line2 = forms.CharField(max_length=100, required=False)
@@ -108,6 +117,7 @@ class CustomUserUpdateForm(CustomUserValidationMixin, forms.ModelForm):
 
         if commit:
             user.save()
+            self.save_m2m()
 
             Address.objects.update_or_create(
                 user=user,
@@ -123,9 +133,9 @@ class CustomUserUpdateForm(CustomUserValidationMixin, forms.ModelForm):
         model = CustomUser
         fields = ("email", "phone_number", "birth_date")
         labels = {
-            'username': 'Nazwa użytkownika',
-            'phone_number': 'Numer telefonu',
-            'birth_date': 'Data urodzenia',
+            'username': 'Username',
+            'phone_number': 'Phone number',
+            'birth_date': 'Date of birth',
         }
         widgets = {
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
@@ -134,6 +144,15 @@ class CustomUserUpdateForm(CustomUserValidationMixin, forms.ModelForm):
                 attrs={'class': 'form-control', 'type': 'date'}
             ),
         }
+
+class CustomUserAdminChangeForm(CustomUserValidationMixin,UserChangeForm,):
+    class Meta(UserChangeForm.Meta):
+        model = CustomUser
+        fields = "__all__"
+
+class ManagerUserUpdateForm(CustomUserUpdateForm):
+    class Meta(CustomUserUpdateForm.Meta):
+        fields = CustomUserUpdateForm.Meta.fields + ("groups",)
 
 class CustomUserAdminForm(CustomUserValidationMixin, AdminUserCreationForm):
     class Meta:

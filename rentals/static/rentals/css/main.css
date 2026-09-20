@@ -154,8 +154,17 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-
 .form-aside p:not(.eyebrow) { margin-top: 16px; color: #52634b; font-size: 14px; }
 .form-aside .text-link { font-size: inherit; }
 .form-icon { display: block; width: 100px; margin-bottom: 28px; color: var(--green); }
+.bike-list-heading { flex-wrap: wrap; }
+.bike-filters { display: flex; align-items: center; gap: 10px; margin: 0; }
+.bike-filters label { margin-right: 4px; color: var(--muted); font-size: 12px; font-weight: 600; }
+.bike-filters select { width: 160px; min-height: 40px; padding: 8px 12px; border: 1px solid #cbd3c4; border-radius: 8px; background: var(--white); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+.bike-filters select:hover { border-color: var(--green); }
+.bike-filters .button { min-height: 40px; padding: 8px 16px; }
 @media (max-width: 900px) { .form-layout { grid-template-columns: 1fr; } }
 @media (max-width: 540px) {
+    .bike-filters { width: 100%; flex-wrap: wrap; }
+    .bike-filters label { width: 100%; }
+    .bike-filters select { flex: 1; min-width: 0; }
     .form-fields { grid-template-columns: 1fr; gap: 20px; }
     .record-form, .form-aside { padding: 20px; }
     .form-actions .button { width: 100%; }

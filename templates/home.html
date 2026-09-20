@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}Twoja kolejna trasa zaczyna się tutaj{% endblock %}
+{% block title %}Your next ride starts here{% endblock %}
 {% block extra_head %}
-<meta name="description" content="Poznaj rowery Bike Rental, sprawdź ceny wypożyczenia i wybierz rower na kolejną trasę.">
+<meta name="description" content="Explore Bike Rental bikes, check rental prices, and choose a bike for your next ride.">
 <style>
     .home-hero { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 56px; padding-block: 12px 64px; }
     .home-hero h1 { font-size: clamp(42px, 5.4vw, 72px); letter-spacing: -2.8px; line-height: 1.06; }
@@ -52,38 +52,38 @@
 {% block content %}
 <section class="home-hero" aria-labelledby="home-title">
     <div>
-        <p class="eyebrow">Bike Rental / Dwa koła. Wiele możliwości.</p>
-        <h1 id="home-title">Dobry dzień<br>zaczyna się<br><em>od roweru.</em></h1>
-        <p class="intro">Krótka przejażdżka czy cały dzień poza miastem? Poznaj naszą flotę i wybierz rower na swoją kolejną trasę.</p>
+        <p class="eyebrow">Bike Rental / Two wheels. Endless possibilities.</p>
+        <h1 id="home-title">A great day<br>starts<br><em>with a bike.</em></h1>
+        <p class="intro">A short ride or a full day out of town? Explore our fleet and choose a bike for your next adventure.</p>
         <div class="home-actions">
-            <a class="button button-dark" href="{% url 'bikes' %}">Zobacz rowery <span aria-hidden="true">↗</span></a>
-            <a class="button button-outline" href="#jak-to-dziala">Jak to działa <span aria-hidden="true">↓</span></a>
+            <a class="button button-dark" href="{% url 'bikes' %}">View bikes <span aria-hidden="true">↗</span></a>
+            <a class="button button-outline" href="#how-it-works">How it works <span aria-hidden="true">↓</span></a>
         </div>
-        <p class="home-caption">Twój kierunek. Twoje tempo. Twoja trasa.</p>
+        <p class="home-caption">Your direction. Your pace. Your ride.</p>
     </div>
     <div class="home-art" aria-hidden="true">
-        <span class="home-art-label">Czas na małą zmianę perspektywy</span>
+        <span class="home-art-label">Time for a fresh perspective</span>
         <div class="home-art-bike">{% include 'includes/bike_icon.html' %}</div>
-        <div class="home-art-note"><strong>Mniej pośpiechu.<br>Więcej drogi.</strong><span class="home-art-arrow">↗</span></div>
+        <div class="home-art-note"><strong>Less rush.<br>More riding.</strong><span class="home-art-arrow">↗</span></div>
     </div>
 </section>
-<section class="home-steps" id="jak-to-dziala" aria-labelledby="home-steps-title">
+<section class="home-steps" id="how-it-works" aria-labelledby="home-steps-title">
     <div class="home-section-heading">
-        <p class="eyebrow">Od pomysłu do przejażdżki</p>
-        <h2 id="home-steps-title">Twoja trasa w trzech krokach<span class="accent">.</span></h2>
+        <p class="eyebrow">From inspiration to your next ride</p>
+        <h2 id="home-steps-title">Your ride in three steps<span class="accent">.</span></h2>
     </div>
     <ol class="home-step-grid">
-        <li><span class="home-step-number" aria-hidden="true">01 / WYBÓR</span><h3>Znajdź swój rower</h3><p>Przejrzyj katalog. W szczegółach każdego roweru sprawdzisz jego parametry i cenę za dobę.</p></li>
-        <li><span class="home-step-number" aria-hidden="true">02 / PLAN</span><h3>Zaplanuj przejażdżkę</h3><p>Wybierz termin i ustal wypożyczenie z obsługą. Zostaje już tylko pomysł na trasę.</p></li>
-        <li><span class="home-step-number" aria-hidden="true">03 / TRASA</span><h3>Ruszaj przed siebie</h3><p>Odbierz rower, ciesz się drogą i oddaj go w ustalonym terminie. Dokąd pojedziesz tym razem?</p></li>
+        <li><span class="home-step-number" aria-hidden="true">01 / CHOOSE</span><h3>Find your bike</h3><p>Browse the catalog. Each bike page lists its specifications and daily rental price.</p></li>
+        <li><span class="home-step-number" aria-hidden="true">02 / PLAN</span><h3>Plan your ride</h3><p>Choose a date and arrange your rental with our staff. Then all you need is a route.</p></li>
+        <li><span class="home-step-number" aria-hidden="true">03 / RIDE</span><h3>Hit the road</h3><p>Pick up your bike, enjoy the ride, and return it on time. Where will you go this time?</p></li>
     </ol>
 </section>
 <section class="home-catalog" aria-labelledby="home-catalog-title">
     <div>
-        <p class="eyebrow">Kolejna przygoda jest blisko</p>
-        <h2 id="home-catalog-title">Wszystko zaczyna się od wyboru.</h2>
-        <p>Poznaj rowery w naszej wypożyczalni i sprawdź szczegóły interesującego Cię modelu.</p>
+        <p class="eyebrow">Your next adventure is close</p>
+        <h2 id="home-catalog-title">It all starts with a choice.</h2>
+        <p>Explore our rental bikes and check the details of your favorite model.</p>
     </div>
-    <a class="button" href="{% url 'bikes' %}">Przejdź do katalogu <span aria-hidden="true">→</span></a>
+    <a class="button" href="{% url 'bikes' %}">Browse the catalog <span aria-hidden="true">→</span></a>
 </section>
 {% endblock %}

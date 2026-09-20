@@ -4,38 +4,38 @@
 {% url 'custom_user_list' as list_url %}
 {% url 'custom_user_update' custom_user.pk as update_url %}
 {% url 'custom_user_delete' custom_user.pk as delete_url %}
-{% if list_url %}<a class="back-link" href="{{ list_url }}"><span aria-hidden="true">←</span> Wszyscy użytkownicy</a>{% endif %}
+{% if list_url %}<a class="back-link" href="{{ list_url }}"><span aria-hidden="true">←</span> All users</a>{% endif %}
 <section class="page-heading detail-heading">
-    <div><p class="eyebrow">Konta / Użytkownik #{{ custom_user.pk }}</p><h1>{{ custom_user.get_full_name|default:custom_user.username }}<span class="accent">.</span></h1><p class="intro">@{{ custom_user.username }}</p></div>
-    {% if custom_user.is_active %}<span class="badge"><span class="status-dot"></span>Konto aktywne</span>{% else %}<span class="badge badge-neutral">Konto nieaktywne</span>{% endif %}
+    <div><p class="eyebrow">Accounts / User #{{ custom_user.pk }}</p><h1>{{ custom_user.get_full_name|default:custom_user.username }}<span class="accent">.</span></h1><p class="intro">@{{ custom_user.username }}</p></div>
+    {% if custom_user.is_active %}<span class="badge"><span class="status-dot"></span>Active account</span>{% else %}<span class="badge badge-neutral">Inactive account</span>{% endif %}
 </section>
 <div class="detail-grid">
     <section class="panel" aria-labelledby="user-data-title">
-        <div class="panel-heading"><h2 id="user-data-title">Dane użytkownika</h2></div>
+        <div class="panel-heading"><h2 id="user-data-title">User details</h2></div>
         <dl class="details">
-            <div><dt>Nazwa użytkownika</dt><dd>{{ custom_user.username }}</dd></div>
-            <div><dt>Imię</dt><dd>{{ custom_user.first_name|default:'Nie podano' }}</dd></div>
-            <div><dt>Nazwisko</dt><dd>{{ custom_user.last_name|default:'Nie podano' }}</dd></div>
-            <div><dt>E-mail</dt><dd>{{ custom_user.email|default:'Nie podano' }}</dd></div>
-            <div><dt>Numer telefonu</dt><dd>{{ custom_user.phone_number|default:'Nie podano' }}</dd></div>
-            <div><dt>Data urodzenia</dt><dd>{{ custom_user.birth_date|date:'d.m.Y'|default:'Nie podano' }}</dd></div>
+            <div><dt>Username</dt><dd>{{ custom_user.username }}</dd></div>
+            <div><dt>First name</dt><dd>{{ custom_user.first_name|default:'Not provided' }}</dd></div>
+            <div><dt>Last name</dt><dd>{{ custom_user.last_name|default:'Not provided' }}</dd></div>
+            <div><dt>E-mail</dt><dd>{{ custom_user.email|default:'Not provided' }}</dd></div>
+            <div><dt>Phone number</dt><dd>{{ custom_user.phone_number|default:'Not provided' }}</dd></div>
+            <div><dt>Date of birth</dt><dd>{{ custom_user.birth_date|date:'d.m.Y'|default:'Not provided' }}</dd></div>
         </dl>
     </section>
     <section class="panel" aria-labelledby="user-account-title">
-        <div class="panel-heading"><h2 id="user-account-title">Informacje o koncie</h2></div>
+        <div class="panel-heading"><h2 id="user-account-title">Account information</h2></div>
         <dl class="details">
-            <div><dt>Data dołączenia</dt><dd>{{ custom_user.date_joined|date:'d.m.Y' }}</dd></div>
-            <div><dt>Ostatnie logowanie</dt><dd>{{ custom_user.last_login|date:'d.m.Y H:i'|default:'Brak logowania' }}</dd></div>
+            <div><dt>Date joined</dt><dd>{{ custom_user.date_joined|date:'d.m.Y' }}</dd></div>
+            <div><dt>Last login</dt><dd>{{ custom_user.last_login|date:'d.m.Y H:i'|default:'Never logged in' }}</dd></div>
         </dl>
         {% if request.user.pk == custom_user.pk %}
-        <div class="record-form"><a class="button button-outline" href="{% url 'password_change' %}">Zmień swoje hasło</a></div>
+        <div class="record-form"><a class="button button-outline" href="{% url 'password_change' %}">Change your password</a></div>
         {% endif %}
     </section>
 </div>
 {% if update_url or delete_url %}
 <div class="form-actions">
-    {% if update_url %}<a class="button button-dark" href="{{ update_url }}">Edytuj użytkownika <span aria-hidden="true">↗</span></a>{% endif %}
-    {% if delete_url %}<a class="button button-outline" href="{{ delete_url }}">Usuń użytkownika</a>{% endif %}
+    {% if update_url %}<a class="button button-dark" href="{{ update_url }}">Edit user <span aria-hidden="true">↗</span></a>{% endif %}
+    {% if delete_url %}<a class="button button-outline" href="{{ delete_url }}">Delete user</a>{% endif %}
 </div>
 {% endif %}
 {% endblock %}

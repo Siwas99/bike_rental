@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
-{% block title %}Usuń użytkownika{% endblock %}
+{% block title %}Delete user{% endblock %}
 {% block content %}
 {% url 'custom_user_detail' object.pk as detail_url %}
 {% url 'custom_user_list' as list_url %}
 {% firstof detail_url list_url as cancel_url %}
-{% if cancel_url %}<a class="back-link" href="{{ cancel_url }}"><span aria-hidden="true">←</span> Wróć do użytkowników</a>{% endif %}
-<section class="page-heading"><div><p class="eyebrow">Konta / Usuwanie</p><h1>Usuń użytkownika<span class="accent">.</span></h1><p class="intro">Potwierdź usunięcie konta {{ object.username }}.</p></div></section>
+{% if cancel_url %}<a class="back-link" href="{{ cancel_url }}"><span aria-hidden="true">←</span> Back to users</a>{% endif %}
+<section class="page-heading"><div><p class="eyebrow">Accounts / Deletion</p><h1>Delete user<span class="accent">.</span></h1><p class="intro">Confirm deletion of the account {{ object.username }}.</p></div></section>
 <section class="panel" aria-labelledby="delete-title">
-    <div class="panel-heading"><h2 id="delete-title">Czy chcesz usunąć to konto?</h2><span class="record-id">#{{ object.pk }}</span></div>
+    <div class="panel-heading"><h2 id="delete-title">Do you want to delete this account?</h2><span class="record-id">#{{ object.pk }}</span></div>
     <div class="customer"><span class="avatar" aria-hidden="true">{{ object.username|first|upper }}</span><div><strong>{{ object.get_full_name|default:object.username }}</strong><span class="cell-caption">@{{ object.username }}</span></div></div>
     <form method="post" class="record-form">
         {% csrf_token %}
-        <div class="form-errors"><h2>Tej operacji nie można cofnąć</h2><p>Usunięcie konta może również usunąć powiązane dane, zależnie od relacji w modelach.</p></div>
+        <div class="form-errors"><h2>This action cannot be undone</h2><p>Deleting this account may also delete related data, depending on the model relationships.</p></div>
         {% if form.errors %}<div class="form-errors" role="alert">{{ form.errors }}</div>{% endif %}
-        <div class="form-actions"><button class="button button-dark" type="submit">Potwierdzam — usuń użytkownika</button>{% if cancel_url %}<a class="button button-outline" href="{{ cancel_url }}">Anuluj</a>{% endif %}</div>
+        <div class="form-actions"><button class="button button-dark" type="submit">Confirm — delete user</button>{% if cancel_url %}<a class="button button-outline" href="{{ cancel_url }}">Cancel</a>{% endif %}</div>
     </form>
 </section>
 {% endblock %}

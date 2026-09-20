@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
-{% block title %}Załóż konto{% endblock %}
+{% block title %}Create account{% endblock %}
 {% block content %}
-<a class="back-link" href="{% url 'login' %}"><span aria-hidden="true">←</span> Wróć do logowania</a>
+<a class="back-link" href="{% url 'login' %}"><span aria-hidden="true">←</span> Back to login</a>
 <section class="page-heading">
-    <div><p class="eyebrow">Bike Rental / Rejestracja</p><h1>Twoja przygoda zaczyna się tutaj<span class="accent">.</span></h1><p class="intro">Uzupełnij swoje dane i utwórz konto w wypożyczalni.</p></div>
+    <div><p class="eyebrow">Bike Rental / Sign up</p><h1>Your adventure starts here<span class="accent">.</span></h1><p class="intro">Enter your details and create a rental account.</p></div>
 </section>
 <div class="form-layout">
     <section class="panel" aria-labelledby="signup-title">
-        <div class="panel-heading"><h2 id="signup-title">Załóż konto</h2><span class="muted">* Pola wymagane</span></div>
+        <div class="panel-heading"><h2 id="signup-title">Create account</h2><span class="muted">* Required fields</span></div>
         <form method="post" class="record-form" novalidate>
             {% csrf_token %}
             {% include 'includes/form_fields.html' %}
-            <div class="form-actions"><button class="button button-dark" type="submit">Załóż konto <span aria-hidden="true">→</span></button><a class="button button-outline" href="{% url 'login' %}">Mam już konto</a></div>
+            <div class="form-actions"><button class="button button-dark" type="submit">Create account <span aria-hidden="true">→</span></button><a class="button button-outline" href="{% url 'login' %}">I already have an account</a></div>
         </form>
     </section>
-    <aside class="form-aside"><span class="form-icon" aria-hidden="true">{% include 'includes/bike_icon.html' %}</span><p class="eyebrow">Dwa koła. Wiele możliwości.</p><h2>Kilka danych na początek</h2><p>Nazwy użytkownika użyjesz do logowania. Podaj swój adres e-mail i numer telefonu. Datę urodzenia możesz pozostawić pustą.</p><p>Wybierz hasło zgodne ze wskazówkami w formularzu i wpisz je ponownie, aby je potwierdzić.</p></aside>
+    <aside class="form-aside"><span class="form-icon" aria-hidden="true">{% include 'includes/bike_icon.html' %}</span><p class="eyebrow">Two wheels. Endless possibilities.</p><h2>A few details to get started</h2><p>Use your username to log in. Enter your email address and phone number. You can leave your date of birth blank.</p><p>Choose a password that meets the form requirements and enter it again to confirm.</p></aside>
 </div>
 {% endblock %}

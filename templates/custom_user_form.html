@@ -1,26 +1,26 @@
 {% extends 'base.html' %}
-{% block title %}{% if object %}Edytuj użytkownika{% else %}Dodaj użytkownika{% endif %}{% endblock %}
+{% block title %}{% if object %}Edit user{% else %}Add user{% endif %}{% endblock %}
 {% block content %}
 {% url 'custom_user_list' as list_url %}
 {% if object %}{% url 'custom_user_detail' object.pk as detail_url %}{% endif %}
 {% firstof detail_url list_url as cancel_url %}
-{% if cancel_url %}<a class="back-link" href="{{ cancel_url }}"><span aria-hidden="true">←</span> {% if detail_url %}Szczegóły użytkownika{% else %}Wszyscy użytkownicy{% endif %}</a>{% endif %}
+{% if cancel_url %}<a class="back-link" href="{{ cancel_url }}"><span aria-hidden="true">←</span> {% if detail_url %}User details{% else %}All users{% endif %}</a>{% endif %}
 <section class="page-heading">
-    <div><p class="eyebrow">Konta / {% if object %}Edycja #{{ object.pk }}{% else %}Nowy użytkownik{% endif %}</p><h1>{% if object %}Edytuj użytkownika{% else %}Dodaj użytkownika{% endif %}<span class="accent">.</span></h1><p class="intro">{% if object %}Dane konta {{ object.username }}.{% else %}Uzupełnij dane nowego konta w wypożyczalni.{% endif %}</p></div>
+    <div><p class="eyebrow">Accounts / {% if object %}Edit #{{ object.pk }}{% else %}New user{% endif %}</p><h1>{% if object %}Edit user{% else %}Add user{% endif %}<span class="accent">.</span></h1><p class="intro">{% if object %}Account details {{ object.username }}.{% else %}Enter the details for the new rental account.{% endif %}</p></div>
 </section>
 <div class="form-layout">
     <section class="panel" aria-labelledby="user-form-title">
-        <div class="panel-heading"><h2 id="user-form-title">Dane konta</h2><span class="muted">* Pola wymagane</span></div>
+        <div class="panel-heading"><h2 id="user-form-title">Account details</h2><span class="muted">* Required fields</span></div>
         <form method="post" class="record-form" novalidate>
             {% csrf_token %}
             {% include 'includes/form_fields.html' %}
             <div class="form-actions">
-                <button class="button button-dark" type="submit">{% if object %}Zapisz zmiany{% else %}Dodaj użytkownika{% endif %} <span aria-hidden="true">→</span></button>
-                {% if object and request.user.pk == object.pk %}<a class="button button-outline" href="{% url 'password_change' %}">Zmień hasło</a>{% endif %}
-                {% if cancel_url %}<a class="button button-outline" href="{{ cancel_url }}">Anuluj</a>{% endif %}
+                <button class="button button-dark" type="submit">{% if object %}Save changes{% else %}Add user{% endif %} <span aria-hidden="true">→</span></button>
+                {% if object and request.user.pk == object.pk %}<a class="button button-outline" href="{% url 'password_change' %}">Change password</a>{% endif %}
+                {% if cancel_url %}<a class="button button-outline" href="{{ cancel_url }}">Cancel</a>{% endif %}
             </div>
         </form>
     </section>
-    <aside class="form-aside"><p class="eyebrow">Dane użytkownika</p><h2>Kontakt zaczyna się tutaj</h2><p>Sprawdź nazwę użytkownika i numer telefonu przed zapisaniem formularza.</p><p>Data urodzenia jest opcjonalna. Pola oznaczone gwiazdką są wymagane.</p></aside>
+    <aside class="form-aside"><p class="eyebrow">User details</p><h2>Stay in touch</h2><p>Check the username and phone number before saving the form.</p><p>Date of birth is optional. Fields marked with an asterisk are required.</p></aside>
 </div>
 {% endblock %}

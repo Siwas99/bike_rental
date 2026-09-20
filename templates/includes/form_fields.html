@@ -1,9 +1,9 @@
 {% load i18n %}
-{% language 'pl' %}
+{% language 'en' %}
 {% if form.errors %}
 <div class="form-errors" role="alert">
-    <h2>Sprawdź zaznaczone pola</h2>
-    <p>Nie zapisano zmian. Popraw błędy i spróbuj ponownie.</p>
+    <h2>Check the highlighted fields</h2>
+    <p>Changes were not saved. Correct the errors and try again.</p>
     {{ form.non_field_errors }}
 </div>
 {% endif %}
@@ -13,7 +13,7 @@
         {% if field.field.widget.input_type == 'checkbox' %}
         <div class="checkbox-label">{{ field }}<label for="{{ field.id_for_label }}">{{ field.label }}</label></div>
         {% else %}
-        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="required" aria-hidden="true">*</span>{% else %} <span class="muted">(opcjonalnie)</span>{% endif %}</label>
+        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="required" aria-hidden="true">*</span>{% else %} <span class="muted">(optional)</span>{% endif %}</label>
         {{ field }}
         {% endif %}
         {% if field.help_text %}<p class="form-help" id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}

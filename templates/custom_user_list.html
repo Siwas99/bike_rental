@@ -1,33 +1,62 @@
 {% extends 'base.html' %}
-{% block title %}Użytkownicy{% endblock %}
+{% block title %}Users{% endblock %}
 {% block content %}
-{% url 'custom_user_create' as create_url %}
-<section class="page-heading">
-    <div><p class="eyebrow">Panel wypożyczalni / Konta</p><h1>Użytkownicy<span class="accent">.</span></h1><p class="intro">Dane kontaktowe i szczegóły kont użytkowników wypożyczalni.</p></div>
-    {% if create_url %}<a class="button button-dark" href="{{ create_url }}">Dodaj użytkownika <span aria-hidden="true">+</span></a>{% endif %}
-</section>
-<section class="panel" aria-labelledby="user-list-title">
-    <div class="panel-heading"><h2 id="user-list-title">Wszyscy użytkownicy</h2><span class="count">{{ custom_users|length }}</span></div>
-    {% if custom_users %}
-    <div class="table-scroll" role="region" aria-label="Tabela użytkowników — przewiń w poziomie na małym ekranie" tabindex="0">
-        <table>
-            <thead><tr><th scope="col">Użytkownik</th><th scope="col">Telefon</th><th scope="col">E-mail</th><th scope="col">Status</th><th scope="col"><span class="sr-only">Szczegóły</span></th></tr></thead>
-            <tbody>
-                {% for custom_user in custom_users %}
-                {% url 'custom_user_detail' custom_user.pk as detail_url %}
-                <tr>
-                    <td>{% if detail_url %}<a class="item-title" href="{{ detail_url }}">{{ custom_user.get_full_name|default:custom_user.username }}</a>{% else %}<strong class="item-title">{{ custom_user.get_full_name|default:custom_user.username }}</strong>{% endif %}<span class="cell-caption">@{{ custom_user.username }}</span></td>
-                    <td class="nowrap">{{ custom_user.phone_number|default:'Nie podano' }}</td>
-                    <td>{{ custom_user.email|default:'Nie podano' }}</td>
-                    <td>{% if custom_user.is_active %}<span class="badge"><span class="status-dot"></span>Aktywne</span>{% else %}<span class="badge badge-neutral">Nieaktywne</span>{% endif %}</td>
-                    <td>{% if detail_url %}<a class="text-link nowrap" href="{{ detail_url }}">Szczegóły <span aria-hidden="true">↗</span><span class="sr-only"> użytkownika {{ custom_user.username }}</span></a>{% endif %}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <div class="empty-state"><span class="empty-icon" aria-hidden="true">{% include 'includes/bike_icon.html' %}</span><h2>Jeszcze nie ma użytkowników</h2><p>Dodane konta pojawią się tutaj wraz z danymi kontaktowymi.</p>{% if create_url %}<a class="button button-dark" href="{{ create_url }}">Dodaj pierwszego użytkownika</a>{% endif %}</div>
-    {% endif %}
-</section>
+    {% url 'custom_user_create' as create_url %}
+    <section class="page-heading">
+        <div><p class="eyebrow">Rental dashboard / Accounts</p>
+            <h1>Users<span class="accent">.</span></h1>
+            <p class="intro">Contact information and account details for rental users.</p></div>
+        {% if create_url %}<a class="button button-dark" href="{{ create_url }}">Add user <span
+                aria-hidden="true">+</span></a>{% endif %}
+    </section>
+    <section class="panel" aria-labelledby="user-list-title">
+        <div class="panel-heading"><h2 id="user-list-title">All users</h2><span
+                class="count">{{ custom_users|length }}</span></div>
+        {% if custom_users %}
+            <div class="table-scroll" role="region"
+                 aria-label="Users table — scroll horizontally on small screens" tabindex="0">
+                <table>
+                    <thead>
+                    <tr>
+                        <th scope="col">User</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Number of rentals</th>
+                        <th scope="col">Number of active rentals</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"><span class="sr-only">Details</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for custom_user in custom_users %}
+                        {% url 'custom_user_detail' custom_user.pk as detail_url %}
+                        <tr>
+                            <td>{% if detail_url %}<a class="item-title"
+                                                      href="{{ detail_url }}">{{ custom_user.get_full_name|default:custom_user.username }}</a>{% else %}
+                                <strong class="item-title">{{ custom_user.get_full_name|default:custom_user.username }}</strong>{% endif %}
+                                <span class="cell-caption">@{{ custom_user.username }}</span></td>
+                            <td class="nowrap">{{ custom_user.phone_number|default:'Not provided' }}</td>
+                            <td>{{ custom_user.email|default:'Not provided' }}</td>
+                            <td>{{ custom_user.rentalsCount }}</td>
+                            <td>{{ custom_user.activeRentalsCount }}</td>
+                            <td>{% if custom_user.is_active %}
+                                <span class="badge"><span class="status-dot"></span>Active</span>{% else %}
+                                <span class="badge badge-neutral">Inactive</span>{% endif %}</td>
+                            <td>{% if detail_url %}<a class="text-link nowrap" href="{{ detail_url }}">Details <span
+                                    aria-hidden="true">↗</span><span
+                                    class="sr-only"> for user {{ custom_user.username }}</span></a>{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state"><span class="empty-icon"
+                                           aria-hidden="true">{% include 'includes/bike_icon.html' %}</span>
+                <h2>No users yet</h2>
+                <p>New accounts will appear here with their contact details.</p>{% if create_url %}
+                    <a class="button button-dark" href="{{ create_url }}">Add the first user</a>{% endif %}
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}

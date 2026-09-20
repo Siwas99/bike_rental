@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from accounts.forms import CustomUserAdminForm
+from accounts.forms import CustomUserAdminForm, CustomUserAdminChangeForm
 from accounts.models import CustomUser, Address
 
 
@@ -14,7 +14,7 @@ class AddressInline(admin.StackedInline):
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserAdminForm
-    form = CustomUserAdminForm
+    form = CustomUserAdminChangeForm
     model = CustomUser
     list_display = [
         "username",

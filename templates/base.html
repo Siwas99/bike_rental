@@ -1,37 +1,40 @@
 {% load static %}
 <!doctype html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light">
-    <title>{% block title %}Panel wypożyczalni{% endblock %} · Bike Rental</title>
-    <link rel="stylesheet" href="{% static 'rentals/css/main.css' %}">
+    <title>{% block title %}Rental dashboard{% endblock %} · Bike Rental</title>
+    <link rel="stylesheet" href="{% static 'rentals/css/main.css' %}?v=20260920-1">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <a class="skip-link" href="#main">Przejdź do treści</a>
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="header-inner">
-            <a class="brand" href="{% url 'rentals' %}" aria-label="Bike Rental — wypożyczenia">
+            <a class="brand" href="{% url 'home' %}" aria-label="Bike Rental — rentals">
                 <span class="brand-mark" aria-hidden="true">{% include 'includes/bike_icon.html' %}</span>
-                <span>bike<span class="brand-light">rental</span><small>Panel wypożyczalni</small></span>
+                <span>bike<span class="brand-light">rental</span><small>Rental dashboard</small></span>
             </a>
-            <nav aria-label="Nawigacja główna">
+            <nav aria-label="Main navigation">
                 {% with current=request.resolver_match.url_name %}
-                <a href="{% url 'rentals' %}" {% if current == 'rentals' or current == 'rental-detail' or current == 'rental-create' or current == 'rental-update' %}class="active" aria-current="{% if current == 'rentals' %}page{% else %}true{% endif %}"{% endif %}>Wypożyczenia</a>
-                <a href="{% url 'bikes' %}" {% if current == 'bikes' or current == 'bike-detail' or current == 'bike-create' or current == 'bike-update' %}class="active" aria-current="{% if current == 'bikes' %}page{% else %}true{% endif %}"{% endif %}>Rowery</a>
+                <a href="{% url 'rentals' %}" {% if current == 'rentals' or current == 'rental-detail' or current == 'rental-create' or current == 'rental-update' %}class="active" aria-current="{% if current == 'rentals' %}page{% else %}true{% endif %}"{% endif %}>Rentals</a>
+                <a href="{% url 'bikes' %}" {% if current == 'bikes' or current == 'bike-detail' or current == 'bike-create' or current == 'bike-update' %}class="active" aria-current="{% if current == 'bikes' %}page{% else %}true{% endif %}"{% endif %}>Bikes</a>
+                {% if perms.accounts.view_customuser%}
+                    <a href="{% url 'custom_user_list' %}" {% if current == 'custom_user_list' or current == 'custom_user_detail' or current == 'custom_user_create' or current == 'custom_user_update' or current == 'custom_user_delete' %}class="active" aria-current="{% if current == 'custom_user_list' %}page{% else %}true{% endif %}"{% endif %}>Users</a>
+                {% endif  %}
                 {% endwith %}
             </nav>
-            <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Dwa koła. Wiele możliwości.</span>
+            <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Two wheels. Endless possibilities.</span>
             <div class="header-account">
                 {% if request.user.is_authenticated %}
-                <a class="account-link" href="{% url 'user_profile' %}" aria-label="Przejdź do profilu: {{ request.user.username }}">
+                <a class="account-link" href="{% url 'user_profile' %}" aria-label="Go to profile: {{ request.user.username }}">
                     <svg class="account-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.5"/><path d="M5 20v-1a7 7 0 0 1 14 0v1"/></svg>
                     <span class="header-username">{{ request.user.username }}</span>
                 </a>
                 {% else %}
-                <a class="account-link" href="{% url 'login' %}" {% if request.resolver_match.url_name == 'login' %}aria-current="page"{% endif %}>Zaloguj się</a>
+                <a class="account-link" href="{% url 'login' %}" {% if request.resolver_match.url_name == 'login' %}aria-current="page"{% endif %}>Log in</a>
                 {% endif %}
             </div>
         </div>
@@ -39,6 +42,6 @@
     <main id="main" class="container" tabindex="-1">
         {% block content %}{% endblock %}
     </main>
-    <footer class="site-footer container"><span>Bike Rental</span><span>Wszystko, czego potrzebujesz do kolejnej trasy.</span></footer>
+    <footer class="site-footer container"><span>Bike Rental</span><span>Everything you need for your next ride.</span></footer>
 </body>
 </html>

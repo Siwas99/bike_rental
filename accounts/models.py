@@ -20,4 +20,4 @@ class Address(models.Model):
         related_name="address"
     )
     def __str__(self):
-        return self.address_line1
+        return self.address_line1 or "Brak adresu"

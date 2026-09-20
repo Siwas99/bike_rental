@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}{% if object %}Edytuj rower{% else %}Dodaj rower{% endif %}{% endblock %}
+{% block title %}{% if object %}Edit bike{% else %}Add bike{% endif %}{% endblock %}
 {% block content %}
 {% if object %}{% url 'bike-detail' object.pk as cancel_url %}{% else %}{% url 'bikes' as cancel_url %}{% endif %}
-<a class="back-link" href="{{ cancel_url }}"><span aria-hidden="true">←</span> {% if object %}Szczegóły roweru{% else %}Wszystkie rowery{% endif %}</a>
+<a class="back-link" href="{{ cancel_url }}"><span aria-hidden="true">←</span> {% if object %}Bike details{% else %}All bikes{% endif %}</a>
 <section class="page-heading">
-    <div><p class="eyebrow">Flota / {% if object %}Edycja #{{ object.pk }}{% else %}Nowy rower{% endif %}</p><h1>{% if object %}Edytuj rower{% else %}Dodaj rower{% endif %}<span class="accent">.</span></h1><p class="intro">{% if object %}Zaktualizuj dane roweru {{ object.name }}.{% else %}Rozbuduj flotę. Uzupełnij dane roweru i ustal cenę za dobę.{% endif %}</p></div>
+    <div><p class="eyebrow">Fleet / {% if object %}Edit #{{ object.pk }}{% else %}New bike{% endif %}</p><h1>{% if object %}Edit bike{% else %}Add bike{% endif %}<span class="accent">.</span></h1><p class="intro">{% if object %}Update the details for bike {{ object.name }}.{% else %}Expand your fleet. Enter the bike details and set the daily price.{% endif %}</p></div>
 </section>
 <div class="form-layout">
     <section class="panel" aria-labelledby="form-title">
-        <div class="panel-heading"><h2 id="form-title">Dane roweru</h2><span class="muted">* Pola wymagane</span></div>
+        <div class="panel-heading"><h2 id="form-title">Bike details</h2><span class="muted">* Required fields</span></div>
         <form method="post" class="record-form" novalidate>
             {% csrf_token %}
             {% include 'includes/form_fields.html' %}
-            <div class="form-actions"><button class="button button-dark" type="submit">{% if object %}Zapisz zmiany{% else %}Dodaj rower{% endif %} <span aria-hidden="true">→</span></button><a class="button button-outline" href="{{ cancel_url }}">Anuluj</a></div>
+            <div class="form-actions"><button class="button button-dark" type="submit">{% if object %}Save changes{% else %}Add bike{% endif %} <span aria-hidden="true">→</span></button><a class="button button-outline" href="{{ cancel_url }}">Cancel</a></div>
         </form>
     </section>
-    <aside class="form-aside"><span class="form-icon" aria-hidden="true">{% include 'includes/bike_icon.html' %}</span><p class="eyebrow">Gotowy na kolejną trasę</p><h2>Porządek we flocie</h2><p>Numer seryjny pomaga rozpoznać konkretny egzemplarz. Cenę podaj w złotych za jedną dobę wypożyczenia.</p><p>Po zapisaniu przejdziesz do szczegółów roweru.</p></aside>
+    <aside class="form-aside"><span class="form-icon" aria-hidden="true">{% include 'includes/bike_icon.html' %}</span><p class="eyebrow">Ready for the next ride</p><h2>Keep your fleet organized</h2><p>The serial number identifies each bike. Enter the price in PLN per rental day.</p><p>After saving, you will see the bike details.</p></aside>
 </div>
 {% endblock %}

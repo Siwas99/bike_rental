@@ -1,21 +1,50 @@
 {% extends 'base.html' %}
-{% block title %}Rowery{% endblock %}
+{% block title %}Bikes{% endblock %}
 {% block content %}
-<section class="page-heading">
-    <div><p class="eyebrow">Panel wypożyczalni / Flota</p><h1>Nasze rowery<span class="accent">.</span></h1><p class="intro">Poznaj flotę. Sprawdź parametry roweru i cenę wypożyczenia.</p></div>
-    <a class="button button-dark" href="{% url 'bike-create' %}">Dodaj rower <span aria-hidden="true">+</span></a>
-</section>
-<div class="list-heading"><div class="section-title"><h2>Wszystkie rowery</h2><span class="count">{{ bikes|length }}</span></div><span class="muted">Alfabetycznie</span></div>
-{% if bikes %}
-<div class="bike-grid">
-    {% for bike in bikes %}
-    <article class="bike-card">
-        <div class="bike-visual"><span class="visual-label">{{ bike.manufacturer }}</span>{% include 'includes/bike_icon.html' %}<span class="visual-year">{{ bike.production_year }}</span></div>
-        <div class="bike-card-body"><p class="eyebrow">{{ bike.manufacturer }}</p><h2><a href="{% url 'bike-detail' bike.pk %}">{{ bike.name }}</a></h2><p class="serial">Nr seryjny: {{ bike.serial_number }}</p><div class="card-bottom"><div><span class="field-label">Cena za dobę</span><strong class="price">{{ bike.price_per_day|floatformat:2 }} <small>zł</small></strong></div><a class="round-link" href="{% url 'bike-detail' bike.pk %}" aria-label="Szczegóły roweru {{ bike.name }}">↗</a></div></div>
-    </article>
-    {% endfor %}
-</div>
-{% else %}
-<section class="panel empty-state"><span class="empty-icon">{% include 'includes/bike_icon.html' %}</span><h2>Flota czeka na pierwszy rower</h2><p>Nie ma jeszcze rowerów w katalogu. Dodane rowery pojawią się w tym miejscu.</p></section>
-{% endif %}
+    <section class="page-heading">
+        <div><p class="eyebrow">Rental dashboard / Fleet</p>
+            <h1>Our bikes<span class="accent">.</span></h1>
+            <p class="intro">Explore the fleet. Check bike specifications and rental prices.</p></div>
+        <a class="button button-dark" href="{% url 'bike-create' %}">Add bike <span aria-hidden="true">+</span></a>
+    </section>
+    <div class="list-heading bike-list-heading">
+        <div class="section-title">
+            <h2>All bikes</h2>
+            <span class="count">{{ bikes|length }}</span>
+        </div>
+        <form class="bike-filters" method="get">
+            <label for="bike-status">Availability</label>
+            <select id="bike-status" name="status">
+                <option value="">All</option>
+                <option value="available" {% if request.GET.status == 'available' %}selected{% endif %}>Available</option>
+                <option value="rented" {% if request.GET.status == 'rented' %}selected{% endif %}>Rented</option>
+            </select>
+            <button class="button button-outline" type="submit">Filter</button>
+        </form>
+    </div>
+    {% if bikes %}
+        <div class="bike-grid">
+            {% for bike in bikes %}
+                <article class="bike-card">
+                    <div class="bike-visual"><span
+                            class="visual-label">{{ bike.manufacturer }}</span>{% include 'includes/bike_icon.html' %}<span
+                            class="visual-year">{{ bike.production_year }}</span></div>
+                    <div class="bike-card-body"><p class="eyebrow">{{ bike.manufacturer }}</p>
+                        <h2><a href="{% url 'bike-detail' bike.pk %}">{{ bike.name }}</a></h2>
+                        <p class="serial">Serial number: {{ bike.serial_number }}</p>
+                        <div class="card-bottom">
+                            <div><span class="field-label">Price per day</span><strong
+                                    class="price">{{ bike.price_per_day|floatformat:2 }} <small>PLN</small></strong>
+                            </div>
+                            <a class="round-link" href="{% url 'bike-detail' bike.pk %}"
+                               aria-label="Bike details {{ bike.name }}">↗</a></div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <section class="panel empty-state"><span class="empty-icon">{% include 'includes/bike_icon.html' %}</span>
+            <h2>The fleet is waiting for its first bike</h2>
+            <p>There are no bikes in the catalog yet. New bikes will appear here.</p></section>
+    {% endif %}
 {% endblock %}

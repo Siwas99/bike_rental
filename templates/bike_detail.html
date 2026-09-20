@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}{{ bike.name }}{% endblock %}
 {% block content %}
-<a class="back-link" href="{% url 'bikes' %}"><span aria-hidden="true">←</span> Wszystkie rowery</a>
-<section class="page-heading detail-heading"><div><p class="eyebrow">Flota / Rower #{{ bike.pk }}</p><h1>{{ bike.name }}<span class="accent">.</span></h1><p class="intro">{{ bike.manufacturer }} · Rocznik {{ bike.production_year }}</p></div></section>
+<a class="back-link" href="{% url 'bikes' %}"><span aria-hidden="true">←</span> All bikes</a>
+<section class="page-heading detail-heading"><div><p class="eyebrow">Fleet / Bike #{{ bike.pk }}</p><h1>{{ bike.name }}<span class="accent">.</span></h1><p class="intro">{{ bike.manufacturer }} · Year {{ bike.production_year }}</p></div></section>
 <div class="detail-grid">
-    <section class="panel bike-showcase" aria-label="Ilustracja roweru"><div class="bike-visual"><span class="visual-label">{{ bike.manufacturer }}</span>{% include 'includes/bike_icon.html' %}<span class="visual-year">{{ bike.production_year }}</span></div><p>Ilustracja poglądowa</p></section>
-    <section class="panel"><div class="panel-heading"><h2>Informacje o rowerze</h2><span class="record-id">#{{ bike.pk }}</span></div><dl class="details"><div><dt>Producent</dt><dd>{{ bike.manufacturer }}</dd></div><div><dt>Model / nazwa</dt><dd>{{ bike.name }}</dd></div><div><dt>Rok produkcji</dt><dd>{{ bike.production_year }}</dd></div><div><dt>Data zakupu</dt><dd>{{ bike.purchase_date|date:'d.m.Y' }}</dd></div><div><dt>Numer seryjny</dt><dd class="monospace">{{ bike.serial_number }}</dd></div></dl><div class="price-box"><span class="field-label">Cena za dobę</span><strong class="price price-large">{{ bike.price_per_day|floatformat:2 }} <small>zł</small></strong></div></section>
+    <section class="panel bike-showcase" aria-label="Bike illustration"><div class="bike-visual"><span class="visual-label">{{ bike.manufacturer }}</span>{% include 'includes/bike_icon.html' %}<span class="visual-year">{{ bike.production_year }}</span></div><p>Illustration for reference</p></section>
+    <section class="panel"><div class="panel-heading"><h2>Bike information</h2><span class="record-id">#{{ bike.pk }}</span></div><dl class="details"><div><dt>Manufacturer</dt><dd>{{ bike.manufacturer }}</dd></div><div><dt>Model / name</dt><dd>{{ bike.name }}</dd></div><div><dt>Year of manufacture</dt><dd>{{ bike.production_year }}</dd></div><div><dt>Purchase date</dt><dd>{{ bike.purchase_date|date:'d.m.Y' }}</dd></div><div><dt>Serial number</dt><dd class="monospace">{{ bike.serial_number }}</dd></div></dl><div class="price-box"><span class="field-label">Price per day</span><strong class="price price-large">{{ bike.price_per_day|floatformat:2 }} <small>PLN</small></strong></div></section>
 </div>
-<div class="form-actions"><a class="button button-outline" href="{% url 'bike-update' bike.pk %}">Edytuj rower <span aria-hidden="true">↗</span></a></div>
+<div class="form-actions"><a class="button button-outline" href="{% url 'bike-update' bike.pk %}">Edit bike <span aria-hidden="true">↗</span></a></div>
 {% endblock %}
